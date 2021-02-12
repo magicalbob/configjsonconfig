@@ -1,0 +1,11 @@
+{
+  "default": {
+    "region": "eu-west-2"
+  },
+  "nonprod": {
+    "region": "eu-west-2"
+  },
+  "prod": {
+    "region": "eu-west-2"
+  }
+}
