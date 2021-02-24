@@ -18,10 +18,10 @@ args = parser.parse_args()
 if args.Input:
     try:
         in_file = open(args.Input,"r")
-    except:
+    except OSError:
         # error opening input file, complain
         print("Unable to open input file given")
-        exit(2)
+        sys.exit(2)
 else:
     in_file = sys.stdin
 
@@ -39,14 +39,14 @@ for k in j:
 outfile=[]
 
 outfile.append('{')
-first_section = " "
+FIRST_SECTION = " "
 for k in j:
-    outfile.append("%s  \"%s\": {" % (first_section,k))
-    first_section=","
-    first_comma=" "
+    outfile.append("%s  \"%s\": {" % (FIRST_SECTION,k))
+    FIRST_SECTION=","
+    FIRST_COMMA=" "
     for i in j[k]:
-        outfile.append("%s    \"%s\": \"%s\"" % (first_comma,i,j[k][i]))
-        first_comma = ","
+        outfile.append("%s    \"%s\": \"%s\"" % (FIRST_COMMA,i,j[k][i]))
+        FIRST_COMMA = ","
     outfile.append("  }")
 outfile.append("}")
 
