@@ -14,18 +14,18 @@ args = parser.parse_args()
 if args.Input:
     try:
         in_file = open(args.Input,"r")
-    except:
+    except OSError:
         # error opening input file, complain
         print("Unable to open input file given")
-        exit(2)
+        sys.exit(2)
 else:
     in_file = sys.stdin
 
 temp=tempfile.NamedTemporaryFile(mode='w')
 
-sub_section=False
-first_line=" "
-first_section=" "
+SUB_SECTION=False
+FIRST_LINE=" "
+FIRST_SECTION=" "
 outfile=[]
 
 outfile.append('{')
@@ -42,29 +42,29 @@ for input_line in in_file:
         if input_line.find('[') == -1:
             if input_line.find('=') > -1:
                 outfile.append("%s   \"%s\": \"%s\"" % (
-                    first_line,
+                    FIRST_LINE,
                     input_line[0:input_line.find('=')-1],
                     input_line[input_line.find('=')+1:len(input_line)].strip()
                 ))
             # set up comma for subsequent lines in section
-            if first_line == " ":
-                first_line=","
+            if FIRST_LINE == " ":
+                FIRST_LINE=","
         else:
             # if section already started, close it off
-            if sub_section == True:
+            if SUB_SECTION:
                 outfile.append('  }')
 
             # format new object for the section
             outfile.append("%s \"%s\" : {" % (
-                first_section,
+                FIRST_SECTION,
                 input_line[input_line.find('[')+1:input_line.find(']')]
             ))
-            sub_section=True
-            first_line=" "
-            first_section=","
+            SUB_SECTION=True
+            FIRST_LINE=" "
+            FIRST_SECTION=","
 
 # if file finished in a section close it off
-if sub_section == True:
+if SUB_SECTION:
     outfile.append('  }')
 outfile.append('}')
 
