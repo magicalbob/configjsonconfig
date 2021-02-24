@@ -1,8 +1,6 @@
 """ Python program to convert json to config/ini """
 
 import sys
-import tempfile
-import os
 import json
 import argparse
 
@@ -15,10 +13,10 @@ args = parser.parse_args()
 if args.Input:
     try:
         in_file = open(args.Input,"r")
-    except:
+    except OSError:
         # error opening input file, complain
         print("Unable to open input file given")
-        exit(2)
+        sys.exit(2)
 else:
     in_file = sys.stdin
 
