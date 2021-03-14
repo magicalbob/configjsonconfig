@@ -29,12 +29,20 @@ temp=tempfile.NamedTemporaryFile(mode='w')
 
 j=json.load(in_file)
 
+section_found=False
+
 for k in j:
     if args.Section == k:
         for i in j[k]:
             if args.Key == i:
                 j[k][i] = args.Value
+                section_found=True
 
+if not section_found:
+    try:
+        j[args.Section][args.Key] = args.Value
+    except:
+        j[args.Section] = { "%s" % (args.Key) : "%s" % (args.Value) }
 
 outfile=[]
 
